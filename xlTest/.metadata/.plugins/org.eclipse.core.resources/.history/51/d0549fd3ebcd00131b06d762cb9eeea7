@@ -1,0 +1,57 @@
+require 'fileutils'
+require 'find'
+require 'pathname'
+
+class DirectorySearch
+
+  attr_reader:file_paths
+  @file_name=[]
+  def intialize()
+
+  end
+
+  def get_file_path_list(root_dir,extension)
+    @file_paths=[]
+
+    pattern="."+extension+"$"
+   
+    Find.find(root_dir) do |conf_dir|
+     if (conf_dir.downcase.match(pattern.downcase))
+       
+
+      @file_paths << conf_dir.to_s
+       
+      else
+      next
+      end
+    end
+@file_paths
+  end
+  
+
+end
+
+#=begin
+puts "Enter Base Directory To Move file.Press 1 to select root"
+base=gets.chomp
+if(base.to_i.eql(1))
+  base="/home/"
+  end
+puts "Enter Destination Directory"
+dst=gets.chomp
+puts "Enter File Extension"
+
+dst="/home/abdullah.hafiz/alltext"
+count=0
+a=DirectorySearch.new()
+file_paths=a.get_file_path_list(base,ext)
+ FileUtils.mkdir_p(dst) 
+file_paths.each do |file|
+  count+=1
+  puts "#{count}:#{file}"
+ 
+FileUtils.cp(file.to_s, dst)
+end
+
+#=end
+

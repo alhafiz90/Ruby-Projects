@@ -1,0 +1,17 @@
+#data_type, required, regex
+#specific column constraints
+Individual=string,true,[Ss]
+#data_type, required, regex
+column C=string,false,null  
+#data_type, required, regex
+column D=float,false,jk
+column E=datetime,false,[0-9]
+column F=datetime,false,null
+column G=number,false,[0-9]
+column H=number,false,[0-9]
+column I=number,false,[0-9]
+column J=date,false,null
+column K=number,false,[0-9]
+column L=number,false,[0-9]
+column M=number,false,[0-9]
+column N=currency,false,null

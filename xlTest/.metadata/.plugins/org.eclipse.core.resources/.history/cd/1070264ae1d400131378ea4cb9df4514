@@ -1,0 +1,24 @@
+require 'thread'
+
+i = 0
+t1 = Thread.new do
+  1000000.times do
+    i += 1
+    puts Thread.current
+  end
+end
+
+puts i
+main=Thread.current
+puts main
+
+t2 = Thread.new do
+  1000000.times do
+    i += 1
+    puts Thread.current
+  end
+end
+t1.join
+t2.join
+puts i
+

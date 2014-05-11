@@ -1,0 +1,18 @@
+def inc
+  a  = $x + 1
+  # Just one microsecond
+  #sleep 0.000001
+  $x =  a
+end
+
+THREADS = 10
+COUNT   = 50
+
+loop do
+  $x = 1
+  THREADS.times.map { Thread.new { COUNT.times { inc } } }.each(&:join)
+  break puts "woo hoo!" if $x != THREADS * COUNT + 1
+  puts "No problem this time."
+end
+
+puts $x

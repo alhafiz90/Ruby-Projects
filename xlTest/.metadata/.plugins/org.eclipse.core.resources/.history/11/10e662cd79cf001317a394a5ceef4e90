@@ -1,0 +1,32 @@
+load 'database_connection.rb'
+
+load 'query_executer.rb'
+load 'file_reader.rb'
+require 'date'
+
+load 'connection.rb'
+require 'securerandom'
+
+def give_comment()
+
+  # connect to the MySQL server
+
+  give_comment=query_data_read("give_comment.txt")
+  time = Time.now.to_s
+  time1=DateTime.parse(time).strftime("%Y%m%d%H%M%S").to_s
+  time2 = DateTime.parse(time).strftime("%Y-%m-%d %H:%M:%S")
+
+  give_comment.each do |acomment|
+    cmment_id="c-"+acomment['post_id']+time1+"-"+acomment['given_by']
+
+    begin
+
+      sql= "INSERT INTO comment(post_id,comment_id,given_by,content,date)VALUES('#{acomment['post_id']}','#{cmment_id}', '#{acomment['given_by']}','#{acomment['content']}', '#{time}')"
+      execute_nonquery(sql)
+    rescue
+    next
+    end
+  end
+end
+
+give_comment()

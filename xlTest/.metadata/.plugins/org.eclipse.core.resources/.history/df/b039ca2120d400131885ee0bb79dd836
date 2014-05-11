@@ -1,0 +1,3 @@
+a="haaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaello cat"
+b="ello dog"
+puts a<=>b

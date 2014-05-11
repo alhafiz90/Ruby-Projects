@@ -1,0 +1,7 @@
+class ReportGenerator
+  def genrate_html_report(file_path,data)
+    
+  
+  
+end
+

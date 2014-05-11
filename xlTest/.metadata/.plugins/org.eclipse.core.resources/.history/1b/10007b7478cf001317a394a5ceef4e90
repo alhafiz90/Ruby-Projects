@@ -1,0 +1,42 @@
+load 'database_connection.rb'
+require "dbi"
+load 'file_reader.rb'
+require 'date'
+load 'connection.rb'
+require 'securerandom'
+def like_post()
+  begin
+  # connect to the MySQL server
+    dbh=setup_conn()
+    like_post=query_data_read("like_post.txt")
+    time = Time.now.to_s
+    time1=DateTime.parse(time).strftime("%Y%m%d%H%M%S").to_s
+    time2 = DateTime.parse(time).strftime("%Y-%m-%d %H:%M:%S")
+    
+ 
+     
+    dbh['AutoCommit'] = false # Set auto commit to false.
+   like_post.each do |alike_post|
+ 
+    
+     begin
+     
+     sql=( "INSERT INTO post_like(post_id,given_by,date)VALUES('#{alike_post['post_id']}', '#{alike_post['given_by']}', '#{time}')" )
+     rescue
+       next
+     end
+    end
+      dbh.commit
+  rescue DBI::DatabaseError => e
+    
+    puts "An error occurred"
+    puts "Error code:    #{e.err}"
+    puts "Error message: #{e.errstr}"
+    dbh.rollback
+
+  ensure
+  # disconnect from server
+  dbh.disconnect if dbh
+  end
+end
+ like_post()

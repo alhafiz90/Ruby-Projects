@@ -1,0 +1,14 @@
+load 'database_connection.rb'
+require "dbi"
+
+load 'file_reader.rb'
+require 'date'
+
+load 'connection.rb'
+require 'securerandom'
+def execute_nonquery(sql)
+  dbh=setup_conn()
+end
+
+def execute_query(sql)
+end

@@ -1,0 +1,47 @@
+load 'database_connection.rb'
+require "dbi"
+load 'connection.rb'
+require 'securerandom'
+def execute_nonquery(sql)
+  #puts sql
+  begin
+  dbh=setup_conn()
+  dbh['AutoCommit'] = false # Set auto commit to false.
+  
+   dbh.do(sql)
+   dbh.commit
+  
+  rescue DBI::DatabaseError => e
+
+    puts "An error occurred"
+    puts "Error code:    #{e.err}"
+    puts "Error message: #{e.errstr}"
+    dbh.rollback
+
+  ensure
+  # disconnect from server
+  dbh.disconnect if dbh
+  end
+end
+
+def execute_query(sql)
+   begin
+  dbh=setup_conn()
+  
+  
+   sth=dbh.prepare(sql)
+   sth.execute()
+   rowobjlist=sth.fetch  
+  rescue DBI::DatabaseError => e
+
+    puts "An error occurred"
+    puts "Error code:    #{e.err}"
+    puts "Error message: #{e.errstr}"
+    dbh.rollback
+
+  ensure
+  # disconnect from server
+  dbh.disconnect if dbh
+  end
+  
+end

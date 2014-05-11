@@ -1,0 +1,32 @@
+
+load 'file_reader.rb'
+require 'date'
+load 'query_executer.rb'
+load 'file_reader.rb'
+require 'date'
+require 'securerandom'
+def like_post()
+ 
+   
+    like_post=query_data_read("like_post.txt")
+    time = Time.now.to_s
+    time1=DateTime.parse(time).strftime("%Y%m%d%H%M%S").to_s
+    time2 = DateTime.parse(time).strftime("%Y-%m-%d %H:%M:%S")
+    
+ 
+     
+    dbh['AutoCommit'] = false # Set auto commit to false.
+   like_post.each do |alike_post|
+ 
+    
+     begin
+     
+     sql=( "INSERT INTO post_like(post_id,given_by,date)VALUES('#{alike_post['post_id']}', '#{alike_post['given_by']}', '#{time}')" )
+     execute_nonquery(sql)
+     rescue
+       next
+     end
+    end
+     
+end
+ like_post()

@@ -1,0 +1,25 @@
+class Counter
+    attr_accessor :count, :tmp
+
+    def initialize
+        @count = 0
+        @tmp = 0
+    end
+
+    def increment
+        @count += 1
+    end
+
+
+end
+
+c = Counter.new
+
+t1 = Thread.start { 1000000.times { c.increment; c.tmp += 1 if c.count.even?; puts "t1: #{c.count}"} }
+t2 = Thread.start { 1000000.times { c.increment; c.tmp += 1 if c.count.even?; "t2: #{c.count}"} }
+
+t1.join
+t2.join
+
+p c.count #200_0000
+p c.tmp # not 100_000, different every time

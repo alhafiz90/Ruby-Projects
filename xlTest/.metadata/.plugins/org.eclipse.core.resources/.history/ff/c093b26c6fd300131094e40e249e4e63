@@ -1,0 +1,95 @@
+ 	name= Rashed kamal
+ 	email=rashed@gmail.com
+ 	password=123456780
+ 	#format=yyyy-mm-dd
+ 	dob=1990-12-31
+ 	gender=male
+ 	address=21/b mujibuddun road, Jessore, Bangladesh
+---
+ 	name=Forhad Hossain
+ 	email=forhad@gmail.com
+ 	password=123456780
+ 	#format=yyyy-mm-dd
+ 	dob=1990-12-31
+ 	gender=male
+ 	address=21/b mujibuddun road, Jessore, Bangladesh
+---
+name= Nayemm Siddique
+ 	email=nayemm@gmail.com
+ 	password=123456780
+ 	#format=yyyy-mm-dd
+ 	dob=1990-12-31
+ 	gender=male
+ 	address=21/b mujibuddun road, Jessore, Bangladesh
+---
+name=Fahmidha Hossain
+ 	email=fahmida@gmail.com
+ 	password=123456780
+ 	#format=yyyy-mm-dd
+ 	dob=1990-12-31
+ 	gender=female
+ 	address=21/b mujibuddun road, Jessore, Bangladesh
+---
+name= Israt Zahan
+ 	email=ishrat@gmail.com
+ 	password=123456780
+ 	#format=yyyy-mm-dd
+ 	dob=1990-12-31
+ 	gender=female
+ 	address=21/b mujibuddun road, Jessore, Bangladesh
+---
+name=Maria Zabin
+ 	email=maria@gmail.com
+ 	password=123456780
+ 	#format=yyyy-mm-dd
+ 	dob=1990-12-31
+ 	gender=female
+ 	address=21/b mujibuddun road, Jessore, Bangladesh
+---
+name=Sanjay Saha
+ 	email=sanjay@gmail.com
+ 	password=123456780
+ 	#format=yyyy-mm-dd
+ 	dob=1990-12-31
+ 	gender=male
+ 	address=21/b mujibuddun road, Jessore, Bangladesh
+---
+name=Rijul Islam
+ 	email=rijul@gmail.com
+ 	password=123456780
+ 	#format=yyyy-mm-dd
+ 	dob=1990-12-31
+ 	gender=male
+ 	address=21/b mujibuddun road, Jessore, Bangladesh
+---
+name=Tawkir Ishti
+ 	email=ishti@gmail.com
+ 	password=123456780
+ 	#format=yyyy-mm-dd
+ 	dob=1990-12-31
+ 	gender=male
+ 	address=21/b mujibuddun road, Jessore, Bangladesh
+---
+
+for (c = 0 ; c < ( n - 1 ); c++)
+  {
+    for (d = 0 ; d < n - c - 1; d++)
+    {
+      if (array[d] > array[d+1]) /* For decreasing order use < */
+      {
+        swap       = array[d];
+        array[d]   = array[d+1];
+        array[d+1] = swap;
+      }
+    }
+  }
+  
+
+
+file=File.new('csv2.csv','w')
+for e in a do
+  str_array=e.split(';')
+  for x in str_array do
+    file.write x + "\t\t\t"
+  end
+  file.puts

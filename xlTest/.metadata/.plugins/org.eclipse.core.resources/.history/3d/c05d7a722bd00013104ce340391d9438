@@ -1,0 +1,48 @@
+load 'database_connection.rb'
+require "dbi"
+
+load 'file_reader.rb'
+load 'connection.rb'
+require 'date'
+
+def get_mutual_friend(user_id1,user_id2)
+begin
+  u1=String.new(user_id1)
+  # connect to the MySQL server
+    dbh=setup_conn()
+    sql2="select user_info.name from friendlist inner join user_info on user_info.facebook_id=friendlist.user_id2 where user_id1='#{user_id1}' and  user_id2 in (select user_id2 from friendlist where user_id1='#{user_id2}')"
+    
+    
+    sql="select user_info.name from friendlist inner join user_info on user_info.facebook_id=friendlist.user_id2 where user_id1=? and  user_id2 in (select user_id2 from friendlist where user_id1=?)"
+    sth = dbh.prepare(sql2)
+    sth.execute("joheen@gmail.com","rashed@gmail.com")
+    puts "joheen@gmail.com".kind_of? Fixnum
+    sth.bind_param("var1",user_id1,false)
+    sth.bind_param("var2",user_id2,false)
+    sth.execute()
+    #sth.bind_coltype(1, DBI::Type::Varchar)
+    
+    
+    sth.fetch do |row|
+
+      p row[0...row.length]
+
+    end
+    sth.finish
+   
+rescue DBI::DatabaseError => e
+    puts "An error occurred"
+    puts "Error code:    #{e.err}"
+    puts "Error message: #{e.errstr}"
+    dbh.rollback
+  ensure
+  # disconnect from server
+  dbh.disconnect if dbh
+  end
+
+end
+
+get_mutual_friend("joheen@gmail.com","rashed@gmail.com")
+
+
+

@@ -1,0 +1,19 @@
+class ReportGenerator
+  def generate_html_report(file_path,data)
+      path= file_path.split("/")
+      module_name=path[path.length-1]
+      
+      path=path[0..path.length-3]
+      new_dir=path.join("/")
+      new_dir=new_dir+"/Test_Report/"+module_name
+      
+      puts new_dir
+      Dir.mkdir
+    
+    
+  end
+    
+  
+  
+end
+

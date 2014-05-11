@@ -1,0 +1,19 @@
+#data_type, required, regex
+#specific column constraints
+columnA=string,true,hello
+
+#data_type, required, regex
+columnB=string,true,[Ss]
+column C=string,false,nul
+#data_type, required, regex
+column D=string,false,null
+column E=number,false,[0-9]
+column F=date,false,null
+column G=number,false,[0-9]
+column H=number,false,[0-9]
+column I=number,false,[0-9]
+column J=number,false,[0-9]
+column K=number,false,[0-9]
+column L=number,false,[0-9]
+column M=number,false,[0-9]
+column N=number,false,[0-9]

@@ -1,0 +1,52 @@
+load 'config_reader.rb'
+load 'expected_data_reader.rb'
+load 'directory_search.rb'
+load 'test_excel.rb'
+load 'global_conf_reader.rb'
+class TestOrganizer
+  def directorywise_test()
+
+    home_dir=Dir.pwd.to_s
+    p home_dir
+    search_dir=DirectorySearch.new
+    config_file_list=search_dir.get_file_path_list(home_dir)
+    expected_file_list=search_dir.file_name_exp
+    common_dir_list=search_dir.file_paths
+    for i in 0...config_file_list.length
+
+      run_test(config_file_list[i],expected_file_list[i],common_dir_list[i])
+    end
+
+  end
+
+  def run_test(conf_directory,expected_data_dir,file_path)
+    config_read=LocalConfigReader.new
+    exp_data_read=ExpectedResultReader.new
+    config_read.config_read(conf_directory)
+    config_data=config_read.config_data
+    exp_data_read.expected_data_read(expected_data_dir)
+    exp_data=exp_data_read.expected_data
+    if(config_data['data_source_type'].eql?("file_system"))
+      file_sytem_get_test(config_data,exp_data,file_path)
+    elsif(config_data['data_source_type'].eql? ("url"))
+      puts file_path +" not implemented yet for url "
+    elsif(config_data['data_source_type'].eql?("database"))
+      puts file_path +" not implemented yet for database "
+    end
+
+  end
+
+  def file_sytem_get_test(config_data,exp_data,file_path)
+
+    test_excel=TestExcel.new
+    puts file_path
+    error_result=[]
+    error_result= test_excel.excel_read(config_data,exp_data,file_path)
+  #gnerate report(error_reslult)
+
+  end
+
+end
+
+a=TestOrganizer.new
+a.directorywise_test()

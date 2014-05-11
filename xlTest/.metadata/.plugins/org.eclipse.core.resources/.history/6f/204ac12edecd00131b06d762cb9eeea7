@@ -1,0 +1,8 @@
+require 'fileutils'
+
+def copy_with_path(src, dst)
+  FileUtils.mkdir_p(File.dirname(dst))
+  FileUtils.cp(src, dst)
+end
+
+copy

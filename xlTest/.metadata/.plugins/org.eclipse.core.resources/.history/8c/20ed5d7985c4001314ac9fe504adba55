@@ -1,0 +1,40 @@
+
+require "reportbuilder"    
+rb=ReportBuilder.new
+rb.add(2) #  Int#to_s used
+section=ReportBuilder::Section.new(:name=>"Section 1")
+table=ReportBuilder::Table.new(:name=>"Table", :header=>%w{id name})
+table.row([1,"John"])
+table.hr
+table.row([2,"Peter"])
+section.add(table) #  Section is a container for other methods
+rb.add(section) #  table have a #report_building method
+rb.add("Another text") #  used directly
+rb.name="Text output"
+puts rb.to_text
+rb.name="Html output"
+puts rb.to_html
+
+
+  def generate()
+ 5:         t=@element
+ 6:         anchor=@builder.table_entry(t.name)
+ 7:         out="<a name='#{anchor}'></a><table><caption>#{t.name}</caption>"
+ 8:         @rowspans=[]
+ 9:         if t.header.size>0
+10:           out+="<thead>"+parse_row(t,t.header,"th")+"</thead>\n"
+11:         end
+12:         out+="<tbody>\n"
+13:         next_class=""
+14:         t.rows.each{|row|
+15:           if row==:hr
+16:             next_class="top"
+17:           else
+18:             class_tag=(next_class=="")?"":" class ='#{next_class}' "
+19:             out+="<tr#{class_tag}>"+parse_row(t,row)+"</tr>\n"
+20:             next_class=""
+21:           end
+22:         }
+23:         out+="</tbody>\n</table>\n"
+24:         @builder.html(out)
+end

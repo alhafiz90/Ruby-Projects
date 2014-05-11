@@ -1,0 +1,96 @@
+require 'csv'
+
+class Student
+  attr_accessor:id
+  attr_accessor:roll_no
+  attr_accessor:name
+  attr_accessor:marks
+
+end
+
+def take_input
+  student_list=Array.new
+  puts "Give id,roll_no,name, marks serially"
+  count=100
+  for i in 0..count
+    count+=1
+    student= Student.new
+
+    puts "------------taking input---------------"
+    student.id=gets.chomp
+    student.roll_no=gets.chomp
+    str=gets.chomp
+    str=str.split(" ")
+    str=str[0..1]
+
+    str=str.join(" ")
+
+    student.name=str
+
+    student.marks=gets.chomp
+    student_list << student
+    puts "-----------------------write exit to stop taking input........else press any to continue.........."
+    break if(gets.chomp.eql?("exit"))
+    next
+  end
+  return student_list
+end
+
+
+def sort(student_list)
+  begin
+    student_list=sort_by_name(student_list)
+    for i in 0...student_list.length-1
+      for j in 0...student_list.length-1-i
+        if(student_list[j].name.to_s.eql?(student_list[j+1].name.to_s)&&student_list[j].roll_no.to_i > student_list[j+1].roll_no.to_i)
+          student1= Student.new
+          student2= Student.new
+        student1.id=student_list[j].id
+        student1.roll_no=student_list[j].roll_no
+        student1.name=student_list[j].name
+        student1.marks=student_list[j].marks
+        student2.id=student_list[j+1].id
+        student2.roll_no=student_list[j+1].roll_no
+        student2.name=student_list[j+1].name
+        student2.marks=student_list[j+1].id
+        student_list[j]=student2
+        student_list[j+1]=student1
+
+        end
+
+      end
+    end
+    return student_list
+  rescue
+    puts "error"
+  end
+end
+
+def sort_by_name(student_list)
+
+  return student_list.sort_by {|obj| obj.name}
+
+end
+
+def write_to_file(students)
+  file=File.open('student_info.csv', 'w')
+  students.each do |s|
+    line1=s.id.to_s
+    line2=s.roll_no.to_s
+    line3=s.name.to_s
+    line4=s.marks.to_s
+    puts line3
+    file.write line1 + "\t\t\t"
+    file.write line2 + "\t\t\t"
+    file.write line3 + "\t\t\t"
+    file.write line4 + "\t\t\t"
+    file.write "\n"
+
+  end
+end
+
+student_list=take_input()
+students=sort(student_list)
+
+write_to_file(students)
+

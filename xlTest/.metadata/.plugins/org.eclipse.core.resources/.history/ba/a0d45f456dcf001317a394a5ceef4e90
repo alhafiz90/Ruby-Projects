@@ -1,0 +1,36 @@
+load 'database_connection.rb'
+require "dbi"
+
+load 'file_reader.rb'
+load 'connection.rb'
+require 'date'
+
+
+
+def create_a_profile()
+ 
+  # connect to the MySQL server
+    dbh=setup_conn()
+    users=query_data_read("createprofile.txt")
+    time = Time.now.to_s
+
+    time = DateTime.parse(time).strftime("%Y-%m-%d %H:%M:%S")
+    puts time
+
+    puts users
+    users.each do |auser|
+      profile=auser['name'].split(" ").join(".").downcase
+      # sth = dbh.prepare( "INSERT INTO user_info(facebook_id,name,email,profile_id,password,reg_time,gender,dob,address) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)" )
+      begin
+        sql= "INSERT INTO user_info(facebook_id,name,email,profile_id,password,reg_time,gender,dob,address) VALUES ('#{auser['email']}','#{auser['name']}','#{auser['email']}','#{profile}','#{auser['password']}','#{time}','#{auser['gender']}','#{auser['dob']}','#{auser['address']}')" )
+        #sth.execute(auser['email'],auser['name'],auser['email'],profile,auser['password'],time,auser['gender'],auser['dob'],auser['address'])
+      rescue
+      next
+      #sth.finish
+      end
+    end
+   
+ 
+end
+
+create_a_profile

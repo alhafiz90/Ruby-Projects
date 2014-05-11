@@ -1,0 +1,11 @@
+load 'database_connection.rb'
+require "dbi"
+
+load 'file_reader.rb'
+require 'date'
+
+load 'connection.rb'
+require 'securerandom'
+def execute_query()
+  
+end

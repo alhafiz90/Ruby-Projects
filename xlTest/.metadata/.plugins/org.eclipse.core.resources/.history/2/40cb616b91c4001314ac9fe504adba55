@@ -1,0 +1,39 @@
+require 'fileutils'
+
+class ReportGenerator
+  def generate_html_report(file_path,data)
+    path= file_path.split("/")
+    module_name=path[path.length-1]
+    path=path[0..path.length-3]
+    new_dir=path.join("/")
+    new_dir=new_dir+"/test_report/"+module_name
+    file_name=new_dir+"/report.html"
+    puts file_name
+    puts new_dir
+    FileUtils.mkdir_p(new_dir) unless File.exists?(new_dir)
+
+    fileHtml = File.new(file_name, "w+")
+    fileHtml.puts "<HTML><BODY BGCOLOR='green'>"
+    fileHtml.puts "<CENTER>Test Report</CENTER>"
+    fileHtml.puts "</BODY></HTML>"
+    fileHtml.puts "<table border='3' style='width:600px'>
+    <tr>
+  <td>Jill</td>
+  <td>Smith</td>
+  <td>50</td>
+</tr>
+<tr>
+  <td>Eve</td>
+  <td>Jackson</td>
+  <td>94</td>
+</tr>
+</table> "
+    
+    fileHtml.close()
+
+    fileHtml.close()
+
+  end
+
+end
+

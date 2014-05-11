@@ -1,0 +1,24 @@
+require 'test/unit/testcase'
+require 'rubygems'
+require 'ci/reporter/rake/test_unit_loader'
+gem 'ci_reporter'
+
+require 'rake'
+require 'rake/testtask'
+require 'rake/packagetask'
+gem 'ci_reporter'
+gem 'test-unit' 
+require 'test/unit' 
+require 'ci/reporter/rake/test_unit'  #http://juretta.com/log/2008/11/11/hudson_test_drive_part_1_rails/
+require 'ci/reporter/rake/rspec'
+
+
+def test_first
+assert(true,"PASS");
+assert_equal(4,5);
+end
+def test_second
+
+assert(false,"Fail");
+
+end

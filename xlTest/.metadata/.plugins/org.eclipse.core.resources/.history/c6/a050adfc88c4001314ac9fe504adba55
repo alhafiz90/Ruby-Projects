@@ -1,0 +1,17 @@
+require 'test/unit/testcase'
+
+require 'rubygems'
+
+
+
+require 'ci/reporter/rake/test_unit_loader.rb'
+def test_first
+assert(true,"PASS");
+assert_equal(4,5);
+end
+def test_second
+
+assert(false,"Fail");
+
+end
+end 

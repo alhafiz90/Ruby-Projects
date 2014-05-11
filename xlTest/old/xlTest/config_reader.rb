@@ -1,0 +1,197 @@
+class LocalConfigReader
+
+  attr_reader:config_data
+
+  def config_read(file_path)
+    begin
+
+      config_file=File.open(file_path, 'r')
+      while !config_file.eof
+        line=config_file.readline
+        if line=~/^# /
+          next
+
+        elsif line =~ /^data_source_type/i
+          data=line.split("=")
+          data_source_type=data[1].to_s.strip.downcase
+          #puts data_source_type
+          config_file.close
+          break
+        end
+      end
+      if data_source_type.eql?("file_system")
+        store_config_filesystem(file_path)
+      elsif data_source_type.eql?("url")
+        store_config_url(file_path)
+      elsif data_source_type.eql?("database")
+        store_config_database(file_path)
+      else
+        puts "does not support source data type"
+      end
+    rescue Exception => e
+      puts e.message
+       puts e.backtrace.inspect
+    end
+
+  end
+
+  def store_config_filesystem(file_path)
+    begin
+      @config_data=Hash.new
+      config_file=File.open(file_path, 'r')
+
+      while !config_file.eof
+        line=config_file.readline
+        #puts line
+        if line=~/(^#)|([^\n]+)/
+          next
+        elsif line =~ /^data_source_type/i
+          data=line.split("=")
+          data_source_type=data[1].to_s.strip.downcase
+          key="data_source_type"
+          @config_data[key]=data_source_type
+
+        elsif  line =~ /^source_file_name/i
+          data=line.split("=")
+          source_file=data[1].to_s.strip.downcase
+          key="source_file"
+          @config_data[key]=source_file
+        elsif  line =~ /^start_from_line_no/i
+          data=line.split("=")
+          start_line=data[1].to_s.strip.downcase
+          key="start_line"
+          @config_data[key]=start_line
+
+        end
+      end
+      config_file.close
+    rescue Exception => e
+      puts e.message
+      puts e.backtrace.inspect
+    end
+  end
+
+
+  def store_config_url(file_path)
+
+    begin
+      @config_data=Hash.new
+      config_file=File.open(file_path, 'r')
+
+      while !config_file.eof
+        line=config_file.readline
+        #puts line
+        if line=~/^# /
+          next
+        elsif line =~ /^data_source_type/i
+          data=line.split("=")
+          data_source_type=data[1].to_s.strip.downcase
+          key="data_source_type"
+          @config_data[key]=data_source_type
+
+        elsif  line =~ /^login_url/i
+          data=line.split("=")
+          login_url=data[1].to_s.strip.downcase
+          key="login_url"
+          @config_data[key]=login_url
+        elsif  line =~ /^login_password/i
+          data=line.split("=")
+          login_password=data[1].to_s.strip.downcase
+          key="login_password"
+          @config_data[key]=login_password
+
+        elsif  line =~ /^login_provider_code/i
+          data=line.split("=")
+          login_provider_code=data[1].to_s.strip.downcase
+          key="login_provider_code"
+          @config_data[key]=login_provider_code
+        elsif  line =~ /^source_data_retrieval_method/i
+          data=line.split("=")
+          source_data_retrieval_method=data[1].to_s.strip.downcase
+          key="data_retrieval_methode"
+          @config_data[key]=source_data_retrieval_method
+
+        elsif  line =~ /^source_data_search_post_params/i
+          data=line.split("=")
+          source_data_search_post_params=data[1].to_s.strip.downcase
+          key="post_params"
+          @config_data[key]=source_data_search_post_params
+
+        elsif  line =~ /^search_result_excel_url/i
+          data=line.split("=")
+          search_result_excel_url=data[1].to_s.strip.downcase
+          key="excel_url"
+          @config_data[key]=search_result_excel_url
+        elsif  line =~ /^start_from_line_no/i
+          data=line.split("=")
+          start_line=data[1].to_s.strip.downcase
+          key="start_line"
+          @config_data[key]=start_line
+
+        end
+      end
+      config_file.close
+    rescue Exception => e
+      puts e.message
+      puts e.backtrace.inspect
+    end
+  end
+
+
+  def store_config_database(file_path)
+
+    begin
+      @config_data=Hash.new
+      config_file=File.open(file_path, 'r')
+
+      while !config_file.eof
+        line=config_file.readline
+        #puts line
+        line=line.strip
+        if line=~/^# /
+          next
+        elsif line =~ /^data_source_type/i
+          data=line.split("=")
+          data_source_type=data[1].to_s.strip.downcase
+          key="data_source_type"
+          @config_data[key]=data_source_type
+
+        elsif  line =~ /^database_url/i
+          data=line.split("=")
+          database_url=data[1].to_s.strip.downcase
+          key="database_url"
+          @config_data[key]=database_url
+        elsif  line =~ /^database_username/i
+          data=line.split("=")
+          database_username=data[1].to_s.strip.downcase
+          key="database_username"
+          @config_data[key]=database_username
+
+        elsif  line =~ /^database_password/i
+          data=line.split("=")
+          database_password=data[1].to_s.strip.downcase
+          key="database_password"
+          @config_data[key]=database_password
+        elsif  line =~ /^start_from_line_no/i
+          data=line.split("=")
+          start_line=data[1].to_s.strip.downcase
+          key="start_line"
+          @config_data[key]=start_line
+
+        end
+
+      end
+      config_file.close
+    rescue Exception => e
+      puts e.message
+      puts e.backtrace.inspect
+    end
+  end
+
+  def get_config()
+    @config_data
+
+  end
+
+end
+

@@ -1,0 +1,42 @@
+load 'database_connection.rb'
+require "dbi"
+load 'query_executer.rb'
+load 'file_reader.rb'
+load 'connection.rb'
+require 'date'
+
+
+
+def create_a_profile()
+
+    
+    users=query_data_read("createprofile.txt")
+    time = Time.now.to_s
+
+    time = DateTime.parse(time).strftime("%Y-%m-%d %H:%M:%S")
+    
+    users.each do |auser|
+      profile=auser['name'].split(" ").join(".").downcase
+      # sth = dbh.prepare( "INSERT INTO user_info(facebook_id,name,email,profile_id,password,reg_time,gender,dob,address) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)" )
+      id=auser['email']
+      name=auser['name']
+      email=auser['email']
+      pass=auser['password']
+      gend=auser['gender']
+      dob=auser['dob']
+      address=auser['address']
+      
+   
+      begin
+        sql= "INSERT INTO user_info(facebook_id,name,email,profile_id,password,reg_time,gender,dob,address) VALUES ('#{id}','#{name}','#{email}','#{profile}','#{pass}','#{time}','#{gend}','#{dob}','#{address}')" 
+        
+        execute_nonquery(sql)
+       
+      
+      next
+    
+      end
+    end
+    
+end
+create_a_profile

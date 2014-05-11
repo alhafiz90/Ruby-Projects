@@ -1,0 +1,12 @@
+class ReportGenerator
+  def generate_html_report(file_path,data)
+      file= file_path.split("/")
+      string
+    
+    
+  end
+    
+  
+  
+end
+

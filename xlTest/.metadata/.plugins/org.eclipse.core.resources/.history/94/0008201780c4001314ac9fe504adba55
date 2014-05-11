@@ -1,0 +1,14 @@
+
+
+
+class Demo < Test::Unit::TestCase
+def test_first
+assert(true,"PASS");
+assert_equal(4,5);
+end
+def test_second
+
+assert(false,"Fail");
+
+end
+end 

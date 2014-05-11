@@ -1,0 +1,117 @@
+require 'roo'
+load 'error_property.rb'
+class TestExcel
+  
+  attr_reader:error_list
+  def excel_read(config_data, expected_data,file_path)
+ 
+ 
+ 
+        @error_list=[]
+        
+        start_line=config_data['start_line'].to_i
+        source_name=config_data['source_file']
+        source_dir=file_path+"/"+source_name
+        puts source_dir
+       
+        if source_dir=~/\.xlsx$/
+          @excel_file = Roo::Excelx.new(source_dir)
+       elsif source_dir=~/\.xls$/
+        @excel_file = Roo::Excel.new(source_dir)
+        end
+        end_line=@excel_file.last_row.to_i
+      
+       current_row=start_line
+       
+      
+       headers=Hash.new
+      @excel_file.row(start_line-1).each_with_index {|header,i| headers[header.strip] = i+1}
+         
+    #puts headers
+        
+      (start_line..end_line).each do |line|
+        
+          expected_data.each do |exp_data|
+            
+            regex=Regexp.new(Regexp.escape(exp_data.data_format.to_s))
+            regex=exp_data.data_format.to_s
+           
+          if exp_data.col_name=~/^col/i
+             curr_col=exp_data.col_name.upcase.gsub("COLUMN","").strip 
+             #puts  curr_col
+           else
+             curr_col=headers.fetch(exp_data.col_name)
+            #puts  curr_col
+           end
+         
+            excel_data_type= @excel_file.celltype(current_row,curr_col)
+            curr_cell=@excel_file.cell(line,curr_col)
+           if(exp_data.is_required.eql?("true") && @excel_file.empty?(current_row,curr_col))
+              puts "data field empty error"
+              save_error_data(current_row.to_s,curr_col,curr_cell,"isrquired")
+            
+           #elsif(exp_data.data_type.downcase.eql?(excel_data_type.to_s)!=true && !curr_cell.nil? )
+             
+             elsif(validate_datatype(exp_data.data_type,current_row,curr_col)==false && !curr_cell.nil? )
+              #p curr_cell 
+             puts "data type error: it has #{excel_data_type}  instead of #{ exp_data.data_type.downcase} col name:#{curr_col}" 
+                
+                  save_error_data(current_row.to_s,curr_col,curr_cell,"datatype")
+             
+           elsif ((!exp_data.data_format.to_s.downcase.eql?("null")) && (curr_cell.to_s.match(regex).nil?) && (!curr_cell.nil?))
+             
+             
+             puts "dataformat mismatch error: data: #{curr_cell} expected regex form: #{exp_data.data_format} in col no:#{curr_col}"
+                   save_error_data(current_row.to_s,curr_col,curr_cell,"dataformat")
+           else 
+                  puts "no error  col name:#{curr_col}" 
+                 save_error_data(current_row.to_s,curr_col,curr_cell,"noerror")
+             
+            
+                 
+           end
+         end    
+           current_row+=1
+        
+      end 
+      @error_list 
+    end
+   def validate_datatype(data_type,row,col)
+          
+          xl_data=@excel_file.cell(row,col)
+          xl_data_type= @excel_file.celltype(row,col)
+          
+             puts xl_data
+             puts xl_data_type
+          return  true if data_type=~/number/i && xl_data=~/^\d$/
+          return  true if data_type=~/date/i && date_validate(xl_data)
+          
+          return false
+   end
+   
+   def date_validate(date)
+  begin
+    (Date.parse(date))
+    return true
+  
+     
+   rescue ArgumentError
+   
+    return false
+      end
+   end
+    
+    def save_error_data(row,col,data,error)
+     
+       error_data=ErrorProperty.new
+                  error_data.row=row
+                  error_data.column=col
+                  error_data.data=data
+                  error_data.error_type=error
+                 @error_list << error_data
+      
+    end
+    
+  end
+  
+

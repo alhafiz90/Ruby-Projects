@@ -1,0 +1,43 @@
+load 'database_connection.rb'
+require "dbi"
+load 'connection.rb'
+require 'securerandom'
+class QueryExecuter
+  attr_accessor:dbh,:sth
+def prepare_sql(sql)
+  puts sql
+  begin
+  @dbh=setup_conn()
+  
+  
+   @sth=dbh.prepare(sql)
+   
+  
+  rescue DBI::DatabaseError => e
+
+    puts "An error occurred"
+    puts "Error code:    #{e.err}"
+    puts "Error message: #{e.errstr}"
+    dbh.rollback
+
+ 
+  end
+end
+def execute(param)
+  puts param
+  param="'132965012876618266921273081555876878540','c-13296501287661826692127308155587687854020140429150825-maria@gmail.com', 'maria@gmail.com','hey go to hell', '2014-04-29 15:08:25"
+  @sth.execute(param)
+  
+end
+def complete()
+  puts "finishing"
+  @sth.finish
+  @dbh.commit
+   
+  @dbh.disconnect if @dbh
+end
+  
+def execute_query(sql)
+end
+end
+puts 132965012876618266921273081555876878540.length

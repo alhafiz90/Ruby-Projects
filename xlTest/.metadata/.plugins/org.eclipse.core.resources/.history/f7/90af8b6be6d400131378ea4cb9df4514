@@ -1,0 +1,40 @@
+require 'thread'
+
+i = 0
+t1 = Thread.new do
+  1000.times do
+    i += 1
+    
+    puts "T1:#{Thread.current} #{Time.now.to_f} #{i}             "
+  
+   sleep 0.000001
+  end
+end
+
+
+main=Thread.current
+#puts "main Thread:#{main}"
+
+t2 = Thread.new do
+  1000.times do
+    i += 1
+     
+    puts "T2:#{Thread.current} #{Time.now.to_f} #{i}             "
+   sleep 0.000001
+  end
+end
+t3 = Thread.new do
+  1000.times do
+    i += 1
+     
+    puts "T3:#{Thread.current} #{Time.now.to_f} #{i}          "
+  end
+end
+
+
+t1.join
+puts i
+t2.join
+puts i
+t3.join
+puts i

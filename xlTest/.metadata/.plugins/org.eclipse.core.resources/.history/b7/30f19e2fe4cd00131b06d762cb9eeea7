@@ -1,0 +1,8 @@
+require 'fileutils'
+
+def copy_with_path(src, dst)
+  FileUtils.mkdir_p(File.dirname(dst))
+  FileUtils.cp_r(src, dst)
+end
+
+copy_with_path("/home/abdullah.hafiz/IDE/LICENSE.txt","home/alltxt")

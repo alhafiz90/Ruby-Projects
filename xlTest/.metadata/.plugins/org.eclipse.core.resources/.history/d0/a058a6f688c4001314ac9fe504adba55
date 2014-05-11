@@ -1,0 +1,7 @@
+require 'test/unit/testcase'
+
+require 'rubygems'
+
+
+
+require 'ci/reporter/rake/test_unit_loader.rb'

@@ -1,0 +1,31 @@
+
+load 'query_executer.rb'
+load 'file_reader.rb'
+require 'date'
+load 'connection.rb'
+def make_friends()
+
+  # connect to the MySQL server
+   
+    friends=query_data_read("makefriends.txt")
+    time = Time.now.to_s
+    time1=DateTime.parse(time).strftime("%Y%m%d%H%M%S").to_i
+    
+    time = DateTime.parse(time).strftime("%Y-%m-%d %H:%M:%S")
+    status=1
+
+
+   
+   friends.each do |afriend|
+     user1=afriend['user_id1']
+     user2=afriend['user_id2']
+     begin
+     sql1=( "INSERT INTO friendlist(user_id1,user_id2,are_friends,date)VALUES('#{user1}', '#{user2}', '#{status}', '#{time}')" )
+     
+     sql2=( "INSERT INTO friendlist(user_id1,user_id2,are_friends,date)VALUES('#{user2}', '#{user1}', '#{status}', '#{time}')" )
+     rescue
+       next
+     end
+    end
+     end
+ make_friends()

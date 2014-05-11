@@ -1,0 +1,56 @@
+load 'database_connection.rb'
+require "dbi"
+
+load 'file_reader.rb'
+require 'date'
+
+load 'connection.rb'
+require 'securerandom'
+
+def post_status()
+  begin
+  # connect to the MySQL server
+    dbh=setup_conn()
+    status=query_data_read("post_status.txt")
+    100000.times do
+    time = Time.now.to_s
+    time1=DateTime.parse(time).strftime("%Y%m%d%H%M%S").to_s
+    time2 = DateTime.parse(time).strftime("%Y-%m-%d %H:%M:%S")
+
+    post_type="status"
+
+    dbh['AutoCommit'] = false # Set auto commit to false.
+    status.each do |astatus|
+
+    #post_id="P-"+astatus['given_by']+"-"+time1
+      post_id=SecureRandom.uuid.gsub("-", "").hex
+
+      #puts post_id
+      begin
+        puts "------------------"
+puts "                    ----------------------------"
+puts "                                                  -----------------------------------------"
+        dbh.do( "INSERT INTO Post(post_id,post_type,date)VALUES('#{post_id}', '#{post_type}','#{time}')" )
+        dbh.do( "INSERT INTO status(post_id,given_by,content,date)VALUES('#{post_id}', '#{astatus['given_by']}', '#{astatus['content']}', '#{time}')" )
+      rescue
+      next
+      end
+    end
+    end
+    dbh.commit
+  rescue DBI::DatabaseError => e
+
+    puts "An error occurred"
+    puts "Error code:    #{e.err}"
+    puts "Error message: #{e.errstr}"
+    dbh.rollback
+
+  ensure
+  # disconnect from server
+  dbh.disconnect if dbh
+  end
+end
+
+
+post_status()
+puts "completed.................................................................................."

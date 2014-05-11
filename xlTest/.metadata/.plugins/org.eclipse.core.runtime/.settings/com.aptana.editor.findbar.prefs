@@ -1,0 +1,3 @@
+FIND_BAR_DECORATOR_FIND_ENTRIES=\#\n\#Tue May 06 15\:39\:11 BDT 2014\n8\=config_file\n7\=database_con\n6\=asuser\n5\=resultset\n4\=get_mutual_friend\n3\=for\n2\=2000\n1\=2005\n0\=line\n
+FIND_BAR_DECORATOR_REPLACE_ENTRIES=\#\n\#Tue May 06 15\:39\:11 BDT 2014\n19\=script\n18\=sum\n17\=display\n16\=calculator\n15\=isanewnum\n14\=numshow\n13\=shownumber\n12\=dooperation\n11\=ShowNumber\n10\=ReaminedOperation\n9\=Negative\n8\=\\\#5A5E61\n7\=\\ \\\#a67939\n6\=query_file\n5\=query_col\n4\=auser\n3\=get_a_status\n2\=2005\n1\=2006\n0\=word\n
+eclipse.preferences.version=1
